@@ -1,5 +1,6 @@
 ---
 typora-root-url: images
+typora-copy-images-to: images
 ---
 
 # My-RPC-Framwork
@@ -32,4 +33,4 @@ typora-root-url: images
 
     ​	服务端提供register方法注册接口， 简化了一下，暂时只能对外提供一个接口的调用服务，使用线程池来处理请求，
 
-![image-20200827201157397](/C:/Users/hukun/AppData/Roaming/Typora/typora-user-images/image-20200827201157397.png)
+<img src="/image-20200827201157397.png" alt="image-20200827201157397" style="zoom:200%;" />
