@@ -33,4 +33,4 @@ typora-copy-images-to: images
 
     ​	服务端提供register方法注册接口， 简化了一下，暂时只能对外提供一个接口的调用服务，使用线程池来处理请求，
 
-<img src="/image-20200827201157397.png" alt="image-20200827201157397" style="zoom:200%;" />
+<img src="https://github.com/xiaolaoshu9696/My-RPCFramwork/blob/4fad6819f85c810e70cc67ec3de3e656a997fa70/images/image-20200827201157397.png" style="zoom:200%;" />
