@@ -1,5 +1,6 @@
 package hkc.test;
 
+import hkc.rpc.api.ADDService;
 import hkc.rpc.api.HelloObject;
 import hkc.rpc.api.HelloService;
 import hkc.rpc.client.RpcClient;
@@ -19,8 +20,11 @@ public class TestClient {
 
         RpcClientProxy proxy = new RpcClientProxy("127.0.0.1",9000);
         HelloService helloService = proxy.getProxy(HelloService.class);
+        ADDService addService = proxy.getProxy(ADDService.class);
         HelloObject object = new HelloObject(11, "This is a message");
         String res = helloService.hello(object);
+        int add = addService.add(2,3);
         System.out.println(res);
+        System.out.println(add);
     }
 }

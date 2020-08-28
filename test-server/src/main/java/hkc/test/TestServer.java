@@ -1,6 +1,9 @@
 package hkc.test;
 
+import hkc.rpc.api.ADDService;
 import hkc.rpc.api.HelloService;
+import hkc.rpc.registry.DefaultServiceRegistry;
+import hkc.rpc.registry.ServiceRegistry;
 import hkc.rpc.server.RpcServer;
 
 /**
@@ -12,7 +15,11 @@ import hkc.rpc.server.RpcServer;
 public class TestServer {
     public static void main(String[] args) {
         HelloService helloService = new HelloServiceImpl();
-        RpcServer rpcServer  = new RpcServer();
-        rpcServer.register(helloService,9000);
+        ADDService addService = new ADDServiceImpl();
+        ServiceRegistry serviceRegistry = new DefaultServiceRegistry();
+        serviceRegistry.register(helloService);
+        serviceRegistry.register(addService);
+        RpcServer rpcServer = new RpcServer(serviceRegistry);
+        rpcServer.start(9000);
     }
 }
