@@ -34,7 +34,7 @@ typora-root-url: ./
 
     ​	服务端提供register方法注册接口， 简化了一下，暂时只能对外提供一个接口的调用服务，使用线程池来处理请求，
 
-<img src="/image-20200827201157397.png" alt="image-20200827201157397" style="zoom:200%;" />
+![](/images/image-20200827201157397.png)
 
 
 
@@ -61,3 +61,23 @@ typora-root-url: ./
 调用流程图：
 
 ![](/images/image-20200828211747993.png)
+
+
+
+## Version1.2
+
+使用了netty实现了NIO的形式
+
+为了保证通用性，我们可以把 Server 和 Client 抽象成两个接口，分别是 RpcServer 和 RpcClient
+
+在 `DefaultServiceRegistry.java` 中，将包含注册信息的 serviceMap 和 registeredService 都改成了 static ，这样就能保证全局唯一的注册信息，并且在创建 RpcServer 时也就不需要传入了。
+
+## 自定义协议与编解码器
+
+![image-20200901163522580](/images/image-20200901163522580.png)
+
+首先是 4 字节魔数，表识一个协议包。接着是 Package Type，标明这是一个调用请求还是调用响应，Serializer Type 标明了实际数据使用的序列化器，这个服务端和客户端应当使用统一标准；Data Length 就是实际数据的长度，设置这个字段主要防止**粘包**，最后就是经过序列化后的实际数据，可能是 RpcRequest 也可能是 RpcResponse 经过序列化后的字节，取决于 Package Type。
+
+JSON 序列化工具我使用的是 Jackson，在 `pom.xml` 中添加依赖即可。序列化和反序列化都比较循规蹈矩，把对象翻译成字节数组，和根据字节数组和 Class 反序列化成对象。这里有一个需要注意的点，就是在 RpcRequest 反序列化时，由于其中有一个字段是 Object 数组，在反序列化时序列化器会根据字段类型进行反序列化，而 Object 就是一个十分模糊的类型，会出现反序列化失败的现象，这时就需要 RpcRequest 中的另一个字段 ParamTypes 来获取到 Object 数组中的每个实例的实际类，辅助反序列化，这就是 `handleRequest()` 方法的作用。
+
+上面提到的这种情况不会在其他序列化方式中出现，因为其他序列化方式是转换成字节数组，会记录对象的信息，而 JSON 方式本质上只是转换成 JSON 字符串，会丢失对象的类型信息。

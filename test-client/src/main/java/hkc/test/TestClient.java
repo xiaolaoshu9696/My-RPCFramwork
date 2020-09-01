@@ -1,12 +1,11 @@
 package hkc.test;
 
+import hkc.rpc.RpcClient;
 import hkc.rpc.api.ADDService;
 import hkc.rpc.api.HelloObject;
 import hkc.rpc.api.HelloService;
-import hkc.rpc.client.RpcClient;
-import hkc.rpc.client.RpcClientProxy;
-
-import java.awt.*;
+import hkc.rpc.RpcClientProxy;
+import hkc.rpc.socket.client.SocketClient;
 
 /**
  * @author hkc
@@ -18,7 +17,8 @@ public class TestClient {
 
     public static void main(String[] args){
 
-        RpcClientProxy proxy = new RpcClientProxy("127.0.0.1",9000);
+        RpcClient client = new SocketClient("127.0.0.1",9000);
+        RpcClientProxy proxy = new RpcClientProxy(client);
         HelloService helloService = proxy.getProxy(HelloService.class);
         ADDService addService = proxy.getProxy(ADDService.class);
         HelloObject object = new HelloObject(11, "This is a message");

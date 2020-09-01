@@ -2,6 +2,7 @@ package hkc.rpc.entity;
 
 import hkc.rpc.enumeration.ResponseCode;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
@@ -12,6 +13,7 @@ import java.io.Serializable;
  */
 
 @Data
+@NoArgsConstructor
 public class RpcResponse<T> implements Serializable {
     /**
      * 响应状态码
