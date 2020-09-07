@@ -81,3 +81,17 @@ typora-root-url: ./
 JSON 序列化工具我使用的是 Jackson，在 `pom.xml` 中添加依赖即可。序列化和反序列化都比较循规蹈矩，把对象翻译成字节数组，和根据字节数组和 Class 反序列化成对象。这里有一个需要注意的点，就是在 RpcRequest 反序列化时，由于其中有一个字段是 Object 数组，在反序列化时序列化器会根据字段类型进行反序列化，而 Object 就是一个十分模糊的类型，会出现反序列化失败的现象，这时就需要 RpcRequest 中的另一个字段 ParamTypes 来获取到 Object 数组中的每个实例的实际类，辅助反序列化，这就是 `handleRequest()` 方法的作用。
 
 上面提到的这种情况不会在其他序列化方式中出现，因为其他序列化方式是转换成字节数组，会记录对象的信息，而 JSON 方式本质上只是转换成 JSON 字符串，会丢失对象的类型信息。
+
+
+
+
+
+Version 1.3
+
+加入了Naco作为注册中心，管理部署在不同ip下的服务提供方
+
+服务调用整个流程如下：
+
+1. 调用者新建一个NettyClient，并新建一个RpcClientProxy对象传入client，getProxy传入需要代理的类，最后整个类的所有方法都会经过client的sendRequest方法进行网络转发调用
+
+2. 首先根据接口的名字找到服务的地址，获取channel，netty的客户端向服务端发送请i去数据获得response

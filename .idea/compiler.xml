@@ -10,11 +10,11 @@
         <module name="rpccommon" />
         <module name="testserver" />
         <module name="testclient" />
-        <module name="rpc-common" />
+        <module name="rpcapi" />
         <module name="rpc-core" />
         <module name="rpccore" />
         <module name="rpc-api" />
-        <module name="rpcapi" />
+        <module name="rpc-common" />
         <module name="test-client" />
       </profile>
     </annotationProcessing>
